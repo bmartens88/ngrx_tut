@@ -1,0 +1,34 @@
+<div
+  fxLayout="column"
+  fxLayoutAlign="start stretch"
+  fxLayoutGap="1em"
+  class="users-wrapper"
+  *ngIf="{
+    deleteDisabled: deleteDisabled$ | async,
+    isAllSelected: isAllSelected$ | async,
+    canClear: canClear$ | async,
+    canSelect: canSelect$ | async,
+    canFilterBySelection: canFilterBySelection$ | async,
+    users: users$ | async,
+    selectAll: selectAll$ | async
+  } as asyncData"
+>
+  <h1>Users</h1>
+  <mat-divider></mat-divider>
+  <app-users-actions-panel
+    [isAllSelected]="asyncData.isAllSelected!"
+    [canClear]="asyncData.canClear!"
+    [canSelect]="asyncData.canSelect!"
+    [canFilterBySelection]="asyncData.canFilterBySelection!"
+    [deleteDisabled]="asyncData.deleteDisabled!"
+    (emitSelectAll)="handleSelectAll($event)"
+    (emitSearch)="handleSearch($event)"
+    (emitClear)="handleClear()"
+  ></app-users-actions-panel>
+  <mat-divider></mat-divider>
+  <app-users-list
+    [users]="asyncData.users!"
+    [selectAll]="asyncData.selectAll!"
+    (emitSelectedUsers)="handleSelectedUsers($event)"
+  ></app-users-list>
+</div>
